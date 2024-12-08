@@ -5,7 +5,7 @@ import numpy as np
 from PIL import Image
 
 # Load the trained model
-model = tf.keras.models.load_model("/gdrive/MyDrive/hybrid_oral_cancer_model.h5")
+model = tf.keras.models.load_model("oral_cancer_model.h5")
 
 # Function to preprocess the image
 def preprocess_image(image):
