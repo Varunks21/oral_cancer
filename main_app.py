@@ -1,11 +1,24 @@
-import streamlit as st
+import os
+import gdown  # Install with `pip install gdown`
 import tensorflow as tf
+import streamlit as st
 from tensorflow.keras.preprocessing.image import load_img, img_to_array
-import numpy as np
 from PIL import Image
+import numpy as np
 
-# Load the trained model
-model = tf.keras.models.load_model("oral_cancer_model.h5")
+# Define model path and Google Drive file ID
+model_path = "hybrid_oral_cancer_model.h5"
+file_id = "1SjrH-KLR-fZHd9lhKkODnykbDZqs1emK"
+gdrive_url = f"https://drive.google.com/uc?id={file_id}"
+
+# Download model if not already present
+if not os.path.exists(model_path):
+    st.write("Downloading model...")
+    gdown.download(gdrive_url, model_path, quiet=False)
+
+# Load the model
+model = tf.keras.models.load_model(model_path)
+st.success("Model loaded successfully!")
 
 # Function to preprocess the image
 def preprocess_image(image):
@@ -14,7 +27,7 @@ def preprocess_image(image):
     img_array = np.expand_dims(img_array, axis=0)  # Add batch dimension
     return img_array
 
-# Streamlit web app
+# Streamlit app interface
 st.title("Oral Cancer Detection Web App")
 st.write("Upload an image to classify as **Cancer** or **Non-Cancer**.")
 
